@@ -155,6 +155,7 @@ exports.getuserbyId = async (req, res) => {
       .json({ message: "Sone thing went wrong in the getuser route" });
   }
 };
+
 // exports.getCount = async (req, res) => {
 //   const state_code = req.params["state_code"];
 //   try {

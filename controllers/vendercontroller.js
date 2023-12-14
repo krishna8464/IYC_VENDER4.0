@@ -4,8 +4,10 @@ const { Tocken } = require("../models/tockenModel");
 const { Users } = require("../models/userModel");
 const { Nominationbackup } = require("../models/nominationbackeup");
 const { Nomination } = require("../models/nomination");
+const { Notification } = require("../models/notificationModel")
 const { sequelize } = require("../config/db");
 const { Sequelize, DataTypes, Op } = require("sequelize");
+const fs = require('fs');
 
 const axios = require("axios");
 
@@ -1144,25 +1146,69 @@ exports.venderStatistics = async (req, res) => {
   }
 };
 
+// exports.vendertopScore = async (req, res) => {
+//   const state_code = req.params["state_code"];
+//   try {
+//     console.log(state_code);
+//     const topVendors = await Vender.findAll({
+//       where: {
+//         state_code: state_code, // Add the condition for state_code
+//       },
+//       order: [["count", "DESC"]], // Order by the 'count' column in descending order
+//       limit: 3, // Limit the result to 3 records
+//     });
+
+//     res.status(200).json(topVendors);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Something went wrong in the vender topthree route" });
+//   }
+// };
+
+
+
 exports.vendertopScore = async (req, res) => {
   const state_code = req.params["state_code"];
   try {
     console.log(state_code);
-    const topVendors = await Vender.findAll({
+      const topThreeInspectionCounts = await Users.findAll({
+      attributes: [
+        [Sequelize.fn('COUNT', Sequelize.literal('DISTINCT users.id')), 'count'],
+        [Sequelize.literal('VenderInfo.id'), 'id'],
+        [Sequelize.literal('VenderInfo.name'), 'name']
+      ],
+      include: [
+        {
+          model: Vender,
+          attributes: [],
+          as: 'VenderInfo', // Specify the alias here
+          where: {
+            state_code: state_code,
+            status: 'active'
+          },
+          required: true
+        }
+      ],
       where: {
-        state_code: state_code, // Add the condition for state_code
+        status: {
+          [Sequelize.Op.or]: ['verified', 'verification_failed']
+        }
       },
-      order: [["count", "DESC"]], // Order by the 'count' column in descending order
-      limit: 3, // Limit the result to 3 records
+      group: ['inspectorId'],
+      order: [[Sequelize.literal('count'), 'DESC']], // Order by verified_count in descending order
+      limit: 3 // Limit to the top 3 records
     });
 
-    res.status(200).json(topVendors);
+    res.status(200).json(topThreeInspectionCounts);
   } catch (error) {
+    console.log(error)
     res
       .status(500)
       .json({ message: "Something went wrong in the vender topthree route" });
   }
 };
+
 
 exports.venderscoreASC = async (req, res) => {
   try {
@@ -2891,7 +2937,9 @@ exports.inspectorReport = async (req, res) => {
         totalcheckedCount: verifiedCount + failedCount,
         totalassignedCount: totalCount,
       });
-    }
+    };
+
+    inspectorData.sort((a, b) => b.totalcheckedCount - a.totalcheckedCount);
 
     res.status(200).send(inspectorData);
   } catch (error) {
@@ -2981,6 +3029,14 @@ exports.getverifiedrecordsReport = async (req, res) => {
     });
 
     const resultArray = users.map((x) => {
+      let venderStatusText = "";
+      if (x.venderStatus === "0") {
+        venderStatusText = "inprocess";
+      } else if (x.venderStatus === "1") {
+        venderStatusText = "onhold";
+      } else if (x.venderStatus === "2") {
+        venderStatusText = "rejected";
+      }
       const result = {
         id: x.id,
         aggr_id: x.aggr_id,
@@ -2997,7 +3053,7 @@ exports.getverifiedrecordsReport = async (req, res) => {
         VIDEO: x.VIDEO,
         status: x.status,
         venderID: x.venderID,
-        venderStatus: x.venderStatus,
+        venderStatus: venderStatusText,
         vender_reason: x.vender_reason,
         comment: x.comment,
         inspectorId: x.inspectorId,
@@ -3039,6 +3095,14 @@ exports.getverificationfailedrecordsReport = async (req, res) => {
     });
 
     const resultArray = users.map((x) => {
+      let venderStatusText = "";
+      if (x.venderStatus === "0") {
+        venderStatusText = "inprocess";
+      } else if (x.venderStatus === "1") {
+        venderStatusText = "onhold";
+      } else if (x.venderStatus === "2") {
+        venderStatusText = "rejected";
+      }
       const result = {
         id: x.id,
         aggr_id: x.aggr_id,
@@ -3055,7 +3119,7 @@ exports.getverificationfailedrecordsReport = async (req, res) => {
         VIDEO: x.VIDEO,
         status: x.status,
         venderID: x.venderID,
-        venderStatus: x.venderStatus,
+        venderStatus: venderStatusText,
         vender_reason: x.vender_reason,
         comment: x.comment,
         inspectorId: x.inspectorId,
@@ -3095,6 +3159,14 @@ exports.getverifiedandverificationfailedReport = async (req, res) => {
     });
 
     const resultArray = users.map((x) => {
+      let venderStatusText = "";
+      if (x.venderStatus === "0") {
+        venderStatusText = "inprocess";
+      } else if (x.venderStatus === "1") {
+        venderStatusText = "onhold";
+      } else if (x.venderStatus === "2") {
+        venderStatusText = "rejected";
+      }
       const result = {
         id: x.id,
         aggr_id: x.aggr_id,
@@ -3111,7 +3183,7 @@ exports.getverifiedandverificationfailedReport = async (req, res) => {
         VIDEO: x.VIDEO,
         status: x.status,
         venderID: x.venderID,
-        venderStatus: x.venderStatus,
+        venderStatus: venderStatusText,
         vender_reason: x.vender_reason,
         comment: x.comment,
         inspectorId: x.inspectorId,
@@ -3159,7 +3231,7 @@ exports.getfilterdataforinspector = async (req, res) => {
   const venderStatus = req.params["venderStatus"];
   const msg = req.params["msg"];
   const page = req.params["page"];
-  const user = await Users.findOne({"id":ID});
+  const user = await Vender.findByPk(ID);
   const state_code = user.state_code;
 
   const whereConditions = {};
@@ -3173,6 +3245,7 @@ exports.getfilterdataforinspector = async (req, res) => {
   if (venderStatus != "empty") {
     whereConditions.venderStatus = venderStatus;
   }
+  // console.log(whereConditions)
   try {
     if (key === "0" && value === "0") {
       const limit = 100;
@@ -3213,7 +3286,6 @@ exports.getfilterdataforinspector = async (req, res) => {
       .json({ message: "Some thing went wrong in the filter route" });
   }
 };
-
 
 exports.getnominationstatistics = async (req , res ) => {
   const ID = req.body.venderId;

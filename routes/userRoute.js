@@ -36,26 +36,14 @@ Userroute.get("/getone/:id", logger, authMiddleware, getuserbyId);
 
 Userroute.get("/getnumber/:state_code", logger, authMiddleware, getCount);
 
-
-
 Userroute.get("/filter/:key/:value/:msg/:venderStatus/:state_code/:page", logger, authMiddleware , filterbyStatus );
 
-Userroute.get(
-  "/masterfilterbyStatus/:page",
-  logger,
-  authMiddleware,
-  masterfilterbyStatus
-);
+Userroute.get("/masterfilterbyStatus/:page",logger,authMiddleware,masterfilterbyStatus);
 
 Userroute.get("/getallcount", logger, authMiddleware, getallcount);
 
 Userroute.get("/search/:key/:value", logger, authMiddleware, findUser);
 
-Userroute.get(
-  "/adminfindUser/:key/:value/:page",
-  logger,
-  authMiddleware,
-  adminfindUser
-);
+Userroute.get("/adminfindUser/:key/:value/:page",logger,authMiddleware,adminfindUser);
 
 module.exports = { Userroute };

@@ -61,9 +61,10 @@ Nominationroute.get("/getuserbyid/:id" , async(req,res) => {
       .status(500)
       .json({ message: "Some thing went wrong in the users search route" });
     }
-  });
+});
 
-  Nominationroute.get("/getdatabystatedistrictassembly/:state_code/:district_code/:assembly_code/:key/:value/:CONTESTING_FOR/:BPL_CARD/:COURT_CASE_PENDING/:CRIMINAL_CASES/:PAYMENT_STATUS/:NOMINATION_STATUS/:GENDER/:BLOOD_GROUP/:page" , async (req,res)=> {
+
+Nominationroute.get("/getdatabystatedistrictassembly/:state_code/:district_code/:assembly_code/:key/:value/:CONTESTING_FOR/:BPL_CARD/:COURT_CASE_PENDING/:CRIMINAL_CASES/:PAYMENT_STATUS/:NOMINATION_STATUS/:GENDER/:BLOOD_GROUP/:page" , async (req,res)=> {
       const key = req.params["key"];
       const value = req.params["value"];
       const state_code = req.params["state_code"];
@@ -172,8 +173,7 @@ Nominationroute.get("/getuserbyid/:id" , async(req,res) => {
         .status(500)
         .json({ message: "Some thing went wrong in the users search route" });
       }
-  });
-
+});
 
 Nominationroute.patch("/update/:id", authMiddleware ,async(req,res)=>{
     venderid = req.body.venderId

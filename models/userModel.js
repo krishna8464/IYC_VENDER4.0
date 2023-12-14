@@ -10,11 +10,12 @@ const Users=sequelize.define("users",{
         autoIncrement:true
     },
     aggr_id:{
-        type:DataTypes.BIGINT,
+        type:DataTypes.STRING,
         allowNull:false
     },
     member_id:{
         type:DataTypes.STRING,
+        unique: true,
         allowNull:false
     },
     first_name:{
