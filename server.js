@@ -52,7 +52,7 @@ app.use("/roportal/notification" , Notification)
 
 
 // Handle invalid routes
-app.use(logger,(req, res) => {
+app.use((req, res) => {
     res.status(404).send({ error: 'Not found' });
 });
 

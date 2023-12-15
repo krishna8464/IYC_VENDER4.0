@@ -5,7 +5,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const { Vender } = require("../models/venderModel");
-const { logger } = require("../middleware/logger");
+// const { logger } = require("../middleware/logger");
 const { authMiddleware } = require("../middleware/auth");
 const {
   createVender,
@@ -77,139 +77,139 @@ const {
   getnominationstatisticsbyauth
 } = require("../controllers/vendercontroller");
 
-Venderroute.post("/create", logger, createVender);
+Venderroute.post("/create", createVender);
 
-Venderroute.post("/getOTP", logger, getOTP);
+Venderroute.post("/getOTP", getOTP);
 
-Venderroute.post("/validateOTP", logger, validateOTP);
+Venderroute.post("/validateOTP", validateOTP);
 
-Venderroute.patch("/update/:id", logger, authMiddleware, updateVenderbyid);
+Venderroute.patch("/update/:id", authMiddleware, updateVenderbyid);
 
-Venderroute.get("/getvenderHistorybyid/:id", logger, getvenderHistorybyid);
+Venderroute.get("/getvenderHistorybyid/:id", getvenderHistorybyid);
 
-Venderroute.get("/getvenderHistorybyauth", logger, authMiddleware, getvenderHistorybyauth)
+Venderroute.get("/getvenderHistorybyauth", authMiddleware, getvenderHistorybyauth)
 
-Venderroute.get("/getvenderdistrictsbyid/:id", logger, getvenderdistrictsbyid);
+Venderroute.get("/getvenderdistrictsbyid/:id", getvenderdistrictsbyid);
 
-Venderroute.get("/getvenderdistrictsbyauth", logger, authMiddleware, getvenderdistrictsbyauth);
+Venderroute.get("/getvenderdistrictsbyauth", authMiddleware, getvenderdistrictsbyauth);
 
-Venderroute.patch( "/updateVenderbyauth",logger, authMiddleware,updateVenderbyauth);
+Venderroute.patch( "/updateVenderbyauth",  authMiddleware,updateVenderbyauth);
 
-Venderroute.delete("/delete/:id", logger, deleteVender);
+Venderroute.delete("/delete/:id", deleteVender);
 
-Venderroute.get("/getone/:id", logger, getoneVender);
+Venderroute.get("/getone/:id", getoneVender);
 
-Venderroute.get("/getall", logger, getallVender);
+Venderroute.get("/getall", getallVender);
 
-Venderroute.get("/getcount", logger, getcoutallVender);
+Venderroute.get("/getcount", getcoutallVender);
 
-Venderroute.post("/logout", logger, authMiddleware, venderLogout);
+Venderroute.post("/logout", authMiddleware, venderLogout);
 
-Venderroute.patch("/increcount", logger, authMiddleware, venderincCount);
+Venderroute.patch("/increcount", authMiddleware, venderincCount);
 
-Venderroute.patch("/deccount", logger, authMiddleware, venderdecCount);
+Venderroute.patch("/deccount", authMiddleware, venderdecCount);
 
-Venderroute.get("/venderStatistics", logger, authMiddleware, venderStatistics);
+Venderroute.get("/venderStatistics", authMiddleware, venderStatistics);
 
-Venderroute.get("/topthree/:state_code", logger, vendertopScore);
+Venderroute.get("/topthree/:state_code", vendertopScore);
 
-Venderroute.get("/venderscoreASC", logger, venderscoreASC);
+Venderroute.get("/venderscoreASC", venderscoreASC);
 
-Venderroute.get("/venderscoreDSC", logger, venderscoreDESC);
+Venderroute.get("/venderscoreDSC", venderscoreDESC);
 
-Venderroute.get("/vendernameASC", logger, vendernameASC);
+Venderroute.get("/vendernameASC", vendernameASC);
 
-Venderroute.get("/search/:key/:value/:state_code", logger, authMiddleware,findVender);
+Venderroute.get("/search/:key/:value/:state_code", authMiddleware,findVender);
  
-Venderroute.post("/assignWorker/:venderid/:recordcount",logger,authMiddleware,assignWorker);
+Venderroute.post("/assignWorker/:venderid/:recordcount", authMiddleware,assignWorker);
 
-Venderroute.post("/releaveworker/:venderid",logger,authMiddleware,releaveWorker);
+Venderroute.post("/releaveworker/:venderid", authMiddleware,releaveWorker);
 
-Venderroute.post("/assignInspector/:venderid/:recordcount/:state_code",logger,authMiddleware,assignInspector);
+Venderroute.post("/assignInspector/:venderid/:recordcount/:state_code", authMiddleware,assignInspector);
 
-Venderroute.post("/releaveInspector/:venderid/:state_code",logger,authMiddleware,releaveInspector);
+Venderroute.post("/releaveInspector/:venderid/:state_code", authMiddleware,releaveInspector);
 
-Venderroute.post("/releaveInspectorbyrecordcount/:venderid/:recordcount/:state_code",logger,authMiddleware,releaveInspectorbyrecordcount);
+Venderroute.post("/releaveInspectorbyrecordcount/:venderid/:recordcount/:state_code", authMiddleware,releaveInspectorbyrecordcount);
 
-Venderroute.get("/getcountofnotassignedUserstoworker",logger,getcountofnotassignedUserstoworker);
+Venderroute.get("/getcountofnotassignedUserstoworker", getcountofnotassignedUserstoworker);
 
-Venderroute.get("/getcountofnotassignedUserstoinspectors/:state_code",logger,getcountofnotassignedUserstoinspectors);
+Venderroute.get("/getcountofnotassignedUserstoinspectors/:state_code", getcountofnotassignedUserstoinspectors);
 
-Venderroute.get("/getmastercountofnotassignedUserstoinspectors",logger,getmastercountofnotassignedUserstoinspectors);
+Venderroute.get("/getmastercountofnotassignedUserstoinspectors", getmastercountofnotassignedUserstoinspectors);
 
-Venderroute.get("/getWorkers", logger, getWorkers);
+Venderroute.get("/getWorkers", getWorkers);
 
-Venderroute.get("/getInspectors/:state_code", logger, getInspectors);
+Venderroute.get("/getInspectors/:state_code", getInspectors);
 
-Venderroute.get("/workergetASC", logger, workergetASC);
+Venderroute.get("/workergetASC", workergetASC);
 
-Venderroute.get("/workergetDESC", logger, workergetDESC);
+Venderroute.get("/workergetDESC", workergetDESC);
 
-Venderroute.get("/inspectorgetASC", logger, inspectorgetASC);
+Venderroute.get("/inspectorgetASC", inspectorgetASC);
 
-Venderroute.get("/inspectorgetDESC", logger, inspectorgetDESC);
+Venderroute.get("/inspectorgetDESC", inspectorgetDESC);
 
-Venderroute.get("/getStatisticsbyworkerid/:workerid",logger,getStatisticsbyworkerid);
+Venderroute.get("/getStatisticsbyworkerid/:workerid", getStatisticsbyworkerid);
 
-Venderroute.get("/getStatisticsbyworkerauth",logger,authMiddleware,getStatisticsbyworkerauth);
+Venderroute.get("/getStatisticsbyworkerauth", authMiddleware,getStatisticsbyworkerauth);
 
-Venderroute.get("/getStatisticsbyinspectorid/:inspectorid/:state_code",logger,getStatisticsbyinspectorid);
+Venderroute.get("/getStatisticsbyinspectorid/:inspectorid/:state_code", getStatisticsbyinspectorid);
 
-Venderroute.get("/getStatisticsbyinspectorauth/:state_code",logger,authMiddleware,getStatisticsbyinspectorauth);
+Venderroute.get("/getStatisticsbyinspectorauth/:state_code", authMiddleware,getStatisticsbyinspectorauth);
 
-Venderroute.get("/getMasterstatisticsbyinspectorid/:inspectorid",logger,getMasterstatisticsbyinspectorid);
+Venderroute.get("/getMasterstatisticsbyinspectorid/:inspectorid", getMasterstatisticsbyinspectorid);
 
-Venderroute.get("/getMasterstatisticsbyauth",logger,authMiddleware,getMasterstatisticsbyauth);
+Venderroute.get("/getMasterstatisticsbyauth", authMiddleware,getMasterstatisticsbyauth);
 
-Venderroute.get("/getworkerassignedallUsers",logger,authMiddleware,getworkerassignedallUsers);
+Venderroute.get("/getworkerassignedallUsers", authMiddleware,getworkerassignedallUsers);
 
-Venderroute.get("/getworkerverifiedUsers",logger,authMiddleware,getworkerverifiedUsers);
+Venderroute.get("/getworkerverifiedUsers", authMiddleware,getworkerverifiedUsers);
 
-Venderroute.get("/getworkernotverifiedUsers",logger,authMiddleware,getworkernotverifiedUsers);
+Venderroute.get("/getworkernotverifiedUsers", authMiddleware,getworkernotverifiedUsers);
 
-Venderroute.get("/getinspectornotverifiedUsers",logger,authMiddleware,getinspectornotverifiedUsers);
+Venderroute.get("/getinspectornotverifiedUsers", authMiddleware,getinspectornotverifiedUsers);
 
-Venderroute.get("/getinspectorverifiedUsers",logger,authMiddleware,getinspectorverifiedUsers);
+Venderroute.get("/getinspectorverifiedUsers", authMiddleware,getinspectorverifiedUsers);
 
-Venderroute.get("/getinspectorallassignedUsers",logger,authMiddleware,getinspectorallassignedUsers);
+Venderroute.get("/getinspectorallassignedUsers", authMiddleware,getinspectorallassignedUsers);
 
-Venderroute.get("/recordInspectorstatistics/:state_code",logger,recordInspectorstatistics);
+Venderroute.get("/recordInspectorstatistics/:state_code", recordInspectorstatistics);
 
-Venderroute.get("/masterrecordInspectorstatistics",logger,masterrecordInspectorstatistics);
+Venderroute.get("/masterrecordInspectorstatistics", masterrecordInspectorstatistics);
 
-Venderroute.get("/unassignedrecordstoInspector/:page/:state_code",logger,unassignedrecordstoInspector);
+Venderroute.get("/unassignedrecordstoInspector/:page/:state_code", unassignedrecordstoInspector);
 
-Venderroute.get("/masterunassignedrecordstotheInspectorreport", logger, masterunassignedrecordstotheInspectorreport);
+Venderroute.get("/masterunassignedrecordstotheInspectorreport", masterunassignedrecordstotheInspectorreport);
 
-Venderroute.get("/masterunassignedrecordstoInspector/:page", logger, masterunassignedrecordstoInspector);
+Venderroute.get("/masterunassignedrecordstoInspector/:page", masterunassignedrecordstoInspector);
 
-Venderroute.get("/getverificationfailedRecords/:state_code", logger, getverificationfailedRecords);
+Venderroute.get("/getverificationfailedRecords/:state_code", getverificationfailedRecords);
 
-Venderroute.get("/getverificationfailedRecordsbyauth", logger, authMiddleware, getverificationfailedRecordsbyauth);
+Venderroute.get("/getverificationfailedRecordsbyauth", authMiddleware, getverificationfailedRecordsbyauth);
 
-Venderroute.get("/inspectorReport/:state_code", logger, inspectorReport);
+Venderroute.get("/inspectorReport/:state_code", inspectorReport);
 
-Venderroute.get("/masterinspectorReport", logger, masterinspectorReport);
+Venderroute.get("/masterinspectorReport", masterinspectorReport);
 
-Venderroute.get("/getverifiedrecordsReport/:state_code",logger,getverifiedrecordsReport);
+Venderroute.get("/getverifiedrecordsReport/:state_code", getverifiedrecordsReport);
 
-Venderroute.get("/getverificationfailedrecordsReport/:state_code",logger,getverificationfailedrecordsReport);
+Venderroute.get("/getverificationfailedrecordsReport/:state_code", getverificationfailedrecordsReport);
 
-Venderroute.get("/getverifiedandverificationfailedReport/:state_code",logger,getverifiedandverificationfailedReport);
+Venderroute.get("/getverifiedandverificationfailedReport/:state_code", getverifiedandverificationfailedReport);
 
-Venderroute.get("/getonebyAuth", logger, authMiddleware, getoneVenderbyAuth);
+Venderroute.get("/getonebyAuth", authMiddleware, getoneVenderbyAuth);
 
-Venderroute.get("/getinspecassignedusersbyconditontoadminUsers/:msg/:inspectorId", logger, getinspecassignedusersbyconditontoadminUsers);
+Venderroute.get("/getinspecassignedusersbyconditontoadminUsers/:msg/:inspectorId", getinspecassignedusersbyconditontoadminUsers);
  
-Venderroute.post("/assignVender/:venderid/:userid", logger, authMiddleware, assignVender);
+Venderroute.post("/assignVender/:venderid/:userid", authMiddleware, assignVender);
 
-Venderroute.get("/filter/:key/:value/:msg/:venderStatus/:page", logger, authMiddleware, getfilterdataforinspector);
+Venderroute.get("/filter/:key/:value/:msg/:venderStatus/:page", authMiddleware, getfilterdataforinspector);
 
-Venderroute.get("/getnominationstatistics", logger, authMiddleware, getnominationstatistics);
+Venderroute.get("/getnominationstatistics", authMiddleware, getnominationstatistics);
 
-Venderroute.get("/getnominationstatisticsbyid/:id", logger, authMiddleware, getnominationstatisticsbyid);
+Venderroute.get("/getnominationstatisticsbyid/:id", authMiddleware, getnominationstatisticsbyid);
 
-Venderroute.get("/getnominationstatisticsbyauth", logger, authMiddleware, getnominationstatisticsbyauth);
+Venderroute.get("/getnominationstatisticsbyauth", authMiddleware, getnominationstatisticsbyauth);
 
 
 
